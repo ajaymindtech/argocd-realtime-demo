@@ -1,7 +1,0 @@
-my-app/
-  ├── app.yaml
-  ├── deployment.yaml
-  ├── service.yaml
-  ├── config/
-  │     └── config.yaml
-  └── ...
