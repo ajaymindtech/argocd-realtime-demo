@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-app
+  namespace: argocd-deploy
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ajaymindtech/argocd-realtime-demo.git
+    path: .
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd-deploy
+  syncPolicy:
+    automated: 
+      selfHeal: true
+      prune: true

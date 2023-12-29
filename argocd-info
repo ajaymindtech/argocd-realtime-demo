@@ -1,0 +1,44 @@
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+helm repo add argo https://argoproj.github.io/argo-helm
+
+
+ minikube start --driver=docker -------------> for the kubectl execution 
+
+kubectl create namespace argocd
+helm install argocd argo/argo-cd -n argocd
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+https://localhost:8080
+
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+
+It looks like you're trying to retrieve the initial admin password for Argo CD using `kubectl` in a Windows environment, but you're encountering an error because the `base64` command is not recognized. This is likely because the `base64` command is not natively available in the Windows Command Prompt or PowerShell.
+
+To resolve this, you can use a different method to decode the base64 encoded string in Windows. Here's how you can do it using PowerShell:
+
+1. First, retrieve the encoded password using `kubectl`:
+
+   ```powershell
+   $encodedPassword = kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}"
+   ```
+
+2. Then, decode the password using PowerShell:
+
+   ```powershell
+   $decodedPassword = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($encodedPassword))
+   ```
+
+3. Finally, you can display the decoded password:
+
+   ```powershell
+   Write-Output $decodedPassword
+   ```
+vu1K1v1wvnKvmjMQ
+This will retrieve and decode the initial admin password for Argo CD in a Windows environment using PowerShell.
+
+argocd login <ARGOCD_SERVER>
+
+
+delete the .git/
+rm -rf .git/
